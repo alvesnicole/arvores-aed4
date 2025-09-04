@@ -194,7 +194,71 @@ void inserir_fixup(ArvoreRubroNegra *T, No *z) {
 
 
 
---------------------------------------------------------------------------------------------------------
+// Função auxiliar para garantir que após a remoção
+// a Arvore Rubro Negra continuara balanceada
+void remover_fixup(ArvoreRubroNegra *T, No *x) {
+    
+// So acontece caso o valor removido seja PRETO
+    while (x != T->raiz && x->cor == PRETO) {
+        
+// Verifica se o nó é do lado esquerda
+        if (x == x->pai->esquerda) {
+
+// Semelhante a inserção que olhamos para o nó tio aqui olharemos o nó irmão
+// Caso o nó seja do lado esquerda o irmão obrigatoriamente tem que ser direita
+            No *w = x->pai->direita; 
+            
+            if (w->cor == VERMELHO) {
+                
+// Se o irmão for vermelho muda a cor dele para PRETO
+// A cor do pai para VERMELHO
+                w->cor = PRETO;
+                x->pai->cor = VERMELHO;
+                
+// Rotaciona o pai fazendo trocar de lugar com o filho w
+                rotacao_esquerda(T, x->pai);
+                
+// Apos a rotação o ponteiro do irmão mudou isso garante que w aponte para o irmão x
+                w = x->pai->direita;
+            }
+    
+// Caso onde ambos os filhos de w são PRETO
+            if (w->esquerda->cor == PRETO && w->direita->cor == PRETO) {
+                
+// w se torna VERMELHO, x se torna o novo pai e o cilho do while se repete novamente 
+                w->cor = VERMELHO;
+                x = x->pai;
+            }
+            
+
+            else {
+                
+// Nesse caso sabemos que w tem um filho VERMELHO e confirmamos que ele está na esquerda
+                if (w->direita->cor == PRETO) {
+                    
+// Mudamos a cor do filho para PRETO e o do pai para VERMELHO
+                    w->esquerda->cor = PRETO;
+                    w->cor = VERMELHO;
+                    
+// Rotaciona o filho para "Fora" para cair no proximo caso deixando a arvore como se estivesse em uma unica linha
+                    rotacao_direita(T, w);
+                    
+// w aponta para o novo irmão x
+                    w = x->pai->direita;
+                }
+                
+// w herda a cor do pai, o pai recebe a cor PRETO e o filho direita fica PRETO
+                w->cor = x->pai->cor;
+                x->pai->cor = PRETO;
+                w->direita->cor = PRETO;
+                
+// Rotação para garantir o rebalanceamento onde sub-árvore w sobe e o pai desce
+                rotacao_esquerda(T, x->pai);]
+                
+// Atribuimos x a T->raiz para finalizar o loop
+                x = T->raiz;
+            }
+        } 
 
 
 
