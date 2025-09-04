@@ -21,6 +21,8 @@ typedef struct ArvoreRubroNegra {
     No *NIL;
 } ArvoreRubroNegra;
 
+
+/* ==-Função->================================ Criar Árvore ================================ */
 // Função para fazer a criação da Arvore Rubro Negra
 ArvoreRubroNegra* criar_arvore() {
 // Realiza a alocação de memoria para o ponteiro T
@@ -42,6 +44,8 @@ ArvoreRubroNegra* criar_arvore() {
     return T;
 }
 
+
+/* ==-Função->================================ Rotação Esquerda ================================ */
 // Função para realizar o rebalanceamento da arvore quando pesa muito para a direita
 void rotacao_esquerda(ArvoreRubroNegra *T, No *x) {
 // y adota o filho x->direita
@@ -71,6 +75,8 @@ void rotacao_esquerda(ArvoreRubroNegra *T, No *x) {
     x->pai = y;
 }
 
+
+/* ==-Função->================================ Rotação Direita ================================ */
 // Função para realizar o rebalanceamento da arvore quando pesa muito para a esquerda
 void rotacao_direita(ArvoreRubroNegra *T, No *y) {
 // x adota o filho y->esquerda
@@ -100,6 +106,8 @@ void rotacao_direita(ArvoreRubroNegra *T, No *y) {
     y->pai = x;
 }
 
+
+/* ==-Função->================================ Buscar ================================ */
 // Função para buscar um valor na Arvore    Rubro   Negra
 No* buscar(ArvoreRubroNegra *T, int chave) {
     No *atual = T->raiz;
@@ -117,6 +125,8 @@ No* buscar(ArvoreRubroNegra *T, int chave) {
     return atual;
 }
 
+
+/* ==-Função->================================ Inserir fixup ================================ */
 // Função auxiliar para garantir que apos a inserção
 // a Arvore Rubro Negra continuara balanceada
 void inserir_fixup(ArvoreRubroNegra *T, No *z) {
@@ -192,8 +202,7 @@ void inserir_fixup(ArvoreRubroNegra *T, No *z) {
 }
 
 
-
-
+/* ==-Função->================================ Remover fixup ================================ */
 // Função auxiliar para garantir que após a remoção
 // a Arvore Rubro Negra continuara balanceada
 void remover_fixup(ArvoreRubroNegra *T, No *x) {
@@ -258,12 +267,12 @@ void remover_fixup(ArvoreRubroNegra *T, No *x) {
 // Atribuimos x a T->raiz para finalizar o loop
                 x = T->raiz;
             }
-        } 
+        }
 
 
 
 
-
+/* ==-Função->================================ Inserir ================================ */
 //FUNÇÃO INSERÇÃO ABAIXO.
 void inserir(ArvoreRubroNegra*T, int chave ){
   No z = (No)malloc(sizeof(No)); //No auxiliar + alocação de memoria + atriubição de valor ao No.
@@ -301,6 +310,7 @@ inserir_fixup(T,z);
 }
 
 
+/* ==-Função->================================ Mínimo árvore ================================ */
 // Função auxiliar para encontrar o nó com a chave mínima em uma sub-árvore
 No* minimo_arvore(ArvoreRubroNegra *T, No *x) {
     while (x->esquerda != T->NIL) {
@@ -309,6 +319,8 @@ No* minimo_arvore(ArvoreRubroNegra *T, No *x) {
     return x;
 }
 
+
+/* ==-Função->================================ Transplantar ================================ */
 // Função auxiliar para substituir uma sub-árvore por outra
 void transplantar(ArvoreRubroNegra *T, No *u, No *v) {
     if (u->pai == T->NIL) {
@@ -322,6 +334,23 @@ void transplantar(ArvoreRubroNegra *T, No *u, No *v) {
 }
 
 
+
+
+
+/* ==-Função->================================ Em ordem ================================ */
+// Função para imprimir a árvore em ordem (chave e cor)
+void em_ordem(ArvoreRubroNegra *T, No *no) {
+    if (no != T->NIL) {
+        em_ordem(T, no->esquerda);
+        printf("%d(%s) ", no->chave, no->cor == VERMELHO ? "V" : "P");
+        em_ordem(T, no->direita);
+    }
+}
+
+
+
+
+/* ==->########-================================ MAIN() ===================================== */
 int main() {
     int opc = 0, valor;
     ArvoreRubroNegra *T = criar_arvore();
