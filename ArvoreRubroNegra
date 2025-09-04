@@ -143,7 +143,60 @@ void inserir_fixup(ArvoreRubroNegra *T, No *z) {
                 z = z->pai->pai;
             }
 
-// INSERIR AQUI CODIGO QUE FALTA(INTERROMPIDO)------------------------------------------------------------------------------------------------------------
+// E se o tio não for VERMELHO nesse caso executa o else
+// Esse caso so ocorre quando o tio aponta para T->NIL ou seja o tio não tem valor
+            else {
+                
+// Esse if verifica se o nó z é o filho direito
+                if (z == z->pai->direita) {
+                    
+// Se for o ponteiro z sobe uma posição e realiza a rotação para a esquerda
+                    z = z->pai;
+                    rotacao_esquerda(T, z);
+                }
+// Essa trecho sempre será executado
+// Ele muda o z->pai->cor para PRETO e o avo z->pai->pai->cor para VERMELHO
+                z->pai->cor = PRETO;
+                z->pai->pai->cor = VERMELHO;
+
+// Realiza a rotação para a direita no avo para manter o balanceamento
+                rotacao_direita(T, z->pai->pai);
+            }
+        }
+        else {
+            
+// Nesse caso concluimos que o que o pai é o filho da direita
+// Logo o tio tem que ser o filho a esquerda
+// Seguindo a mesma logica da parte de cima somente com os lados invertidos
+            No *y = z->pai->pai->esquerda;
+            if (y->cor == VERMELHO) {
+                z->pai->cor = PRETO;
+                y->cor = PRETO;
+                z->pai->pai->cor = VERMELHO;
+                z = z->pai->pai;
+            }
+            else {
+                if (z == z->pai->esquerda) {
+                    z = z->pai;
+                    rotacao_direita(T, z);
+                }
+                z->pai->cor = PRETO;
+                z->pai->pai->cor = VERMELHO;
+                rotacao_esquerda(T, z->pai->pai);
+            }
+        }
+    }
+    
+// Força a raiz ser sempre PRETO
+    T->raiz->cor = PRETO;
+}
+
+
+
+
+--------------------------------------------------------------------------------------------------------
+
+
 
 
 
