@@ -300,6 +300,28 @@ z->cor = VERMELHO;
 inserir_fixup(T,z);
 }
 
+
+// Função auxiliar para encontrar o nó com a chave mínima em uma sub-árvore
+No* minimo_arvore(ArvoreRubroNegra *T, No *x) {
+    while (x->esquerda != T->NIL) {
+        x = x->esquerda;
+    }
+    return x;
+}
+
+// Função auxiliar para substituir uma sub-árvore por outra
+void transplantar(ArvoreRubroNegra *T, No *u, No *v) {
+    if (u->pai == T->NIL) {
+        T->raiz = v;
+    } else if (u == u->pai->esquerda) {
+        u->pai->esquerda = v;
+    } else {
+        u->pai->direita = v;
+    }
+    v->pai = u->pai;
+}
+
+
 int main() {
     int opc = 0, valor;
     ArvoreRubroNegra *T = criar_arvore();
