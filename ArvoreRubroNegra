@@ -234,7 +234,7 @@ void remover_fixup(ArvoreRubroNegra *T, No *x) {
 // Caso onde ambos os filhos de w são PRETO
             if (w->esquerda->cor == PRETO && w->direita->cor == PRETO) {
                 
-// w se torna VERMELHO, x se torna o novo pai e o cilho do while se repete novamente 
+// w se torna VERMELHO, x se torna o novo pai e o ciclo do while se repete novamente 
                 w->cor = VERMELHO;
                 x = x->pai;
             }
