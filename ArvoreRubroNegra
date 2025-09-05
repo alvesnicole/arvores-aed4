@@ -346,6 +346,86 @@ void em_ordem(ArvoreRubroNegra *T, No *no) {
         em_ordem(T, no->direita);
     }
 }
+/*FUNÇÃO REMOVER*/
+void remover(ArvoreRubroNegra *T, int chave) {
+    
+// Utiliza a função de busca para encontrar o valor para remover
+    No *z = buscar(T, chave);
+    if (z == T->NIL) {
+        printf("Nó com a chave %d não encontrado.\n", chave);
+        return;
+    }
+
+// Cria um ponteiro auxiliar onde o nó que será verdadeiramente removido é y
+    No *y = z;
+    No *x;
+    
+// Guarda a cor original de y
+    Cor cor_original_y = y->cor;
+
+// Nesse caso z só tem filho direito
+    if (z->esquerda == T->NIL) {
+        x = z->direita;
+
+// Substituimos z pelo seu filho direito
+        transplantar(T, z, z->direita);
+        
+// Nesse caso z so tem o filho esquerdo
+    }
+    else if (z->direita == T->NIL) {
+        x = z->esquerda;
+        
+// Substituimos z pelo seu filho esquerdo
+        transplantar(T, z, z->esquerda);
+    }
+    
+// Nesse caso z tem dois filhos
+    else {
+        
+// Procura o sucessor de z que é o menor valor do nó direito
+        y = minimo_arvore(T, z->direita);
+        
+// Guardamos a cor original do nó que será movido
+        cor_original_y = y->cor;
+        
+// Aponta para o unico filho direito de y
+        x = y->direita;
+        
+// Verifca se y é filho imediato de z
+        if (y->pai == z) {
+            
+// Ajusta o ponteiro de x->pai para o caso de chamar a Função remover_fixup
+            x->pai = y;
+        }
+        
+// Trata o caso de y não ser o sucessor
+        else {
+            transplantar(T, y, y->direita);
+            y->direita = z->direita;
+            y->direita->pai = y;
+        }
+        
+// y agora substitui z oficialmente
+        transplantar(T, z, y);
+        
+// y adota a sub-árvore a esquerda de z
+        y->esquerda = z->esquerda;
+        y->esquerda->pai = y;
+        
+// y herda a cor de z
+        y->cor = z->cor;
+    }
+
+// Como z foi removido liberamos sua memoria
+    free(z);
+    
+// Caso a cor_original_y seja PRETO a Arvore Rubro Negra precisa ser corrigida
+    if (cor_original_y == PRETO) {
+        remover_fixup(T, x);
+    }
+}
+
+/* FUNÇÃO REMOVER ACIMA*/
 
 
 /* ==->########-================================ MAIN() ===================================== */
