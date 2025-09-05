@@ -262,20 +262,20 @@ void remover_fixup(ArvoreRubroNegra *T, No *x) {
                 w->direita->cor = PRETO;
                 
 // Rotação para garantir o rebalanceamento onde sub-árvore w sobe e o pai desce
-                rotacao_esquerda(T, x->pai);]
+                rotacao_esquerda(T, x->pai);
                 
 // Atribuimos x a T->raiz para finalizar o loop
                 x = T->raiz;
             }
         }
-
-
+    }
+}
 
 
 /* ==-Função->================================ Inserir ================================ */
 //FUNÇÃO INSERÇÃO ABAIXO.
 void inserir(ArvoreRubroNegra*T, int chave ){
-  No z = (No)malloc(sizeof(No)); //No auxiliar + alocação de memoria + atriubição de valor ao No.
+  No* z = (No*)malloc(sizeof(No)); //No auxiliar + alocação de memoria + atriubição de valor ao No.
   z->chave = chave;
 
   //DOIS PONTEIROS DE BUSCA.
@@ -346,8 +346,6 @@ void em_ordem(ArvoreRubroNegra *T, No *no) {
         em_ordem(T, no->direita);
     }
 }
-
-
 
 
 /* ==->########-================================ MAIN() ===================================== */
